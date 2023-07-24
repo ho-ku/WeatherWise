@@ -55,11 +55,9 @@
 		37968F022A6F019200CFEF12 /* WeatherWise */ = {
 			isa = PBXGroup;
 			children = (
-				37968F032A6F019200CFEF12 /* WeatherWiseApp.swift */,
-				37968F052A6F019200CFEF12 /* ContentView.swift */,
-				37968F072A6F019300CFEF12 /* Assets.xcassets */,
-				37968F0C2A6F019300CFEF12 /* Persistence.swift */,
-				37968F0E2A6F019300CFEF12 /* WeatherWise.xcdatamodeld */,
+				37968F182A6F01A400CFEF12 /* CoreData */,
+				37968F172A6F019E00CFEF12 /* Resources */,
+				37968F162A6F019900CFEF12 /* App */,
 				37968F092A6F019300CFEF12 /* Preview Content */,
 			);
 			path = WeatherWise;
@@ -71,6 +69,32 @@
 				37968F0A2A6F019300CFEF12 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		37968F162A6F019900CFEF12 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				37968F032A6F019200CFEF12 /* WeatherWiseApp.swift */,
+				37968F052A6F019200CFEF12 /* ContentView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		37968F172A6F019E00CFEF12 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				37968F072A6F019300CFEF12 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		37968F182A6F01A400CFEF12 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				37968F0C2A6F019300CFEF12 /* Persistence.swift */,
+				37968F0E2A6F019300CFEF12 /* WeatherWise.xcdatamodeld */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
