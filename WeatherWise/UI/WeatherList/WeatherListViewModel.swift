@@ -14,19 +14,17 @@ final class WeatherListViewModel: ObservableObject {
     
     @Published var selectedLocation: WeatherLocation?
     
-    private let persistenceController: PersistenceController
+    private let weatherRepository: AnyWeatherRepository
     
     // MARK: - Init
     
-    init(
-        persistenceController: PersistenceController = .shared
-    ) {
-        self.persistenceController = persistenceController
+    init(weatherRepository: AnyWeatherRepository) {
+        self.weatherRepository = weatherRepository
     }
     
     // MARK: - Methods
     
-    func metadata(for id: String) -> WeatherLocation.Metadata {
+    func metadata(for id: String) -> WeatherLocation.Metadata { // TODO: - Replace with the real data
         .init(
             weatherForecast: [
                 .init(
@@ -68,27 +66,31 @@ final class WeatherListViewModel: ObservableObject {
         )
     }
     
+    /// Method to add a new location if it does not exist yet
     func add(_ location: WeatherLocation, locations: [WeatherLocation]) {
         guard !locations.contains(where: { $0.id == location.id }) else { return }
-        let viewContext = persistenceController.container.viewContext
-        let newLocationMO = WeatherLocationMO(context: viewContext)
-        
-        newLocationMO.id = location.id
-        newLocationMO.timestamp = .init()
-        newLocationMO.title = location.title
-        newLocationMO.lat = location.coordinate.latitude
-        newLocationMO.lon = location.coordinate.longitude
-        
-        saveContext()
+        withAnimation {
+            do {
+                try weatherRepository.add(location)
+            } catch {
+                print(error)
+            }
+        }
     }
     
+    /// Method to delete location from db
     func delete(_ locationMO: WeatherLocationMO) {
-        let viewContext = persistenceController.container.viewContext
-        viewContext.delete(locationMO)
-        saveContext()
-        withAnimation { selectedLocation = nil }
+        withAnimation {
+            do {
+                try weatherRepository.delete(locationMO)
+            } catch {
+                print(error)
+            }
+            selectedLocation = nil
+        }
     }
     
+    /// Method to get current time string in specific location
     func time(in location: WeatherLocation) async -> String {
         let clLocation = CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         let geocoder = CLGeocoder()
@@ -99,18 +101,5 @@ final class WeatherListViewModel: ObservableObject {
         dateFormatter.timeZone = placemark.timeZone
         dateFormatter.dateFormat = "h:mm a"
         return dateFormatter.string(from: .now)
-    }
-    
-    // MARK: - Private helpers
-    
-    private func saveContext() {
-        let viewContext = persistenceController.container.viewContext
-        withAnimation {
-            do {
-                try viewContext.save()
-            } catch {
-                print(error)
-            }
-        }
     }
 }

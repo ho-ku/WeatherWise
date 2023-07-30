@@ -23,7 +23,7 @@ struct WeatherListView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \WeatherLocationMO.timestamp, ascending: true)],
         animation: .default) private var locationsFetchRequest: FetchedResults<WeatherLocationMO>
     
-    @StateObject private var viewModel: WeatherListViewModel = .init()
+    @StateObject private var viewModel = ModuleFactory.ViewModel.weatherListViewModel
     
     // MARK: - Body
     

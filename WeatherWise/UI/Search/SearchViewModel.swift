@@ -17,6 +17,7 @@ final class SearchViewModel: ObservableObject {
             addDelayedSearchTask()
         }
     }
+    
     @Published var foundWeatherObjects: [
         (location: WeatherLocation, description: String)
     ] = []
@@ -36,7 +37,7 @@ final class SearchViewModel: ObservableObject {
         }
     }
     
-    func search() async {
+    private func search() async {
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = searchText
         let search = MKLocalSearch(request: request)

@@ -15,6 +15,8 @@
 		3758EC182A7468F0000A1AA2 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3758EC172A7468F0000A1AA2 /* SearchView.swift */; };
 		3758EC1A2A76CBCA000A1AA2 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3758EC192A76CBCA000A1AA2 /* SearchViewModel.swift */; };
 		3758EC1C2A76CCB4000A1AA2 /* WeatherListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3758EC1B2A76CCB4000A1AA2 /* WeatherListViewModel.swift */; };
+		3758EC1E2A76DAB5000A1AA2 /* WeatherRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3758EC1D2A76DAB5000A1AA2 /* WeatherRepository.swift */; };
+		3758EC212A76DBE6000A1AA2 /* ModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3758EC202A76DBE6000A1AA2 /* ModuleFactory.swift */; };
 		37968F042A6F019200CFEF12 /* WeatherWiseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37968F032A6F019200CFEF12 /* WeatherWiseApp.swift */; };
 		37968F062A6F019200CFEF12 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37968F052A6F019200CFEF12 /* ContentView.swift */; };
 		37968F082A6F019300CFEF12 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37968F072A6F019300CFEF12 /* Assets.xcassets */; };
@@ -32,6 +34,8 @@
 		3758EC172A7468F0000A1AA2 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		3758EC192A76CBCA000A1AA2 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		3758EC1B2A76CCB4000A1AA2 /* WeatherListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherListViewModel.swift; sourceTree = "<group>"; };
+		3758EC1D2A76DAB5000A1AA2 /* WeatherRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherRepository.swift; sourceTree = "<group>"; };
+		3758EC202A76DBE6000A1AA2 /* ModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleFactory.swift; sourceTree = "<group>"; };
 		37968F002A6F019200CFEF12 /* WeatherWise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherWise.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37968F032A6F019200CFEF12 /* WeatherWiseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherWiseApp.swift; sourceTree = "<group>"; };
 		37968F052A6F019200CFEF12 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -89,6 +93,14 @@
 			path = Search;
 			sourceTree = "<group>";
 		};
+		3758EC1F2A76DBDB000A1AA2 /* Factory */ = {
+			isa = PBXGroup;
+			children = (
+				3758EC202A76DBE6000A1AA2 /* ModuleFactory.swift */,
+			);
+			path = Factory;
+			sourceTree = "<group>";
+		};
 		37968EF72A6F019200CFEF12 = {
 			isa = PBXGroup;
 			children = (
@@ -108,6 +120,7 @@
 		37968F022A6F019200CFEF12 /* WeatherWise */ = {
 			isa = PBXGroup;
 			children = (
+				3758EC1F2A76DBDB000A1AA2 /* Factory */,
 				3758EC072A7425E4000A1AA2 /* UI */,
 				37968F182A6F01A400CFEF12 /* CoreData */,
 				37968F172A6F019E00CFEF12 /* Resources */,
@@ -149,6 +162,7 @@
 			children = (
 				37968F0C2A6F019300CFEF12 /* Persistence.swift */,
 				37968F0E2A6F019300CFEF12 /* WeatherWise.xcdatamodeld */,
+				3758EC1D2A76DAB5000A1AA2 /* WeatherRepository.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -223,11 +237,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3758EC1E2A76DAB5000A1AA2 /* WeatherRepository.swift in Sources */,
 				3758EC1A2A76CBCA000A1AA2 /* SearchViewModel.swift in Sources */,
 				3758EC182A7468F0000A1AA2 /* SearchView.swift in Sources */,
 				37968F102A6F019300CFEF12 /* WeatherWise.xcdatamodeld in Sources */,
 				3758EC152A746495000A1AA2 /* Strings.swift in Sources */,
 				3758EC132A74641C000A1AA2 /* Image.swift in Sources */,
+				3758EC212A76DBE6000A1AA2 /* ModuleFactory.swift in Sources */,
 				37968F0D2A6F019300CFEF12 /* Persistence.swift in Sources */,
 				37968F062A6F019200CFEF12 /* ContentView.swift in Sources */,
 				3758EC0F2A742B31000A1AA2 /* WeatherListView.swift in Sources */,

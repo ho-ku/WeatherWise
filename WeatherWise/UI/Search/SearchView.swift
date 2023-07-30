@@ -23,7 +23,7 @@ struct SearchView: View {
     var onSelect: (WeatherLocation) -> Void
     
     // Private properties
-    @ObservedObject private var viewModel = SearchViewModel()
+    @ObservedObject private var viewModel = ModuleFactory.ViewModel.searchViewModel
     @Environment(\.dismiss) private var dismiss
     
     // MARK: - Body
