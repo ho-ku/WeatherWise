@@ -12,6 +12,8 @@ final class WeatherListViewModel: ObservableObject {
     
     // MARK: - Properties
     
+    @Published var selectedLocation: WeatherLocation?
+    
     private let persistenceController: PersistenceController
     
     // MARK: - Init
@@ -26,8 +28,43 @@ final class WeatherListViewModel: ObservableObject {
     
     func metadata(for id: String) -> WeatherLocation.Metadata {
         .init(
-            temperature: 34,
-            weatherCondition: "Cloudy"
+            weatherForecast: [
+                .init(
+                    date: .init(),
+                    temperature: 30,
+                    condition: "Rain"
+                ),
+                .init(
+                    date: .init().addingTimeInterval(10800),
+                    temperature: 29,
+                    condition: "Cloudy"
+                ),
+                .init(
+                    date: .init().addingTimeInterval(21600),
+                    temperature: 20,
+                    condition: "Norm"
+                ),
+                .init(
+                    date: .init().addingTimeInterval(32400),
+                    temperature: 21,
+                    condition: "Rain"
+                ),
+                .init(
+                    date: .init().addingTimeInterval(43200),
+                    temperature: 40,
+                    condition: "Rain"
+                ),
+                .init(
+                    date: .init().addingTimeInterval(54000),
+                    temperature: 19,
+                    condition: "Rain"
+                ),
+                .init(
+                    date: .init().addingTimeInterval(64800),
+                    temperature: 50,
+                    condition: "Rain"
+                )
+            ]
         )
     }
     
@@ -42,13 +79,14 @@ final class WeatherListViewModel: ObservableObject {
         newLocationMO.lat = location.coordinate.latitude
         newLocationMO.lon = location.coordinate.longitude
         
-        withAnimation {
-            do {
-                try viewContext.save()
-            } catch {
-                print(error)
-            }
-        }
+        saveContext()
+    }
+    
+    func delete(_ locationMO: WeatherLocationMO) {
+        let viewContext = persistenceController.container.viewContext
+        viewContext.delete(locationMO)
+        saveContext()
+        withAnimation { selectedLocation = nil }
     }
     
     func time(in location: WeatherLocation) async -> String {
@@ -61,5 +99,18 @@ final class WeatherListViewModel: ObservableObject {
         dateFormatter.timeZone = placemark.timeZone
         dateFormatter.dateFormat = "h:mm a"
         return dateFormatter.string(from: .now)
+    }
+    
+    // MARK: - Private helpers
+    
+    private func saveContext() {
+        let viewContext = persistenceController.container.viewContext
+        withAnimation {
+            do {
+                try viewContext.save()
+            } catch {
+                print(error)
+            }
+        }
     }
 }

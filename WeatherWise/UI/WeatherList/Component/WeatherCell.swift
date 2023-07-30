@@ -29,7 +29,7 @@ struct WeatherCell: View {
         HStack {
             VStack(alignment: .leading, spacing: Const.spacing) {
                 HStack {
-                    Text(metadata.weatherCondition)
+                    Text(metadata.weatherCondition ?? "")
                         .font(.system(size: 18))
                         .foregroundColor(.gray)
                         .bold()
@@ -44,9 +44,16 @@ struct WeatherCell: View {
                     }
                 }
                 
-                Text("\(metadata.temperature)°")
-                    .font(.system(size: 40))
-                    .bold()
+                if let temperature = metadata.temperature {
+                    Text("\(temperature)°")
+                        .font(.system(size: 40))
+                        .bold()
+                } else {
+                    Text("")
+                        .font(.system(size: 40))
+                        .bold()
+                }
+                
                 
                 Text(location.title)
                     .font(.system(size: 18))

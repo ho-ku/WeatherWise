@@ -32,12 +32,19 @@ struct WeatherListView: View {
             ScrollView {
                 LazyVStack {
                     ForEach(locations, id: \.title) { location in
-                        WeatherCell(
-                            location: location,
-                            metadata: viewModel.metadata(for: location.id),
-                            timeAction: { await viewModel.time(in: location) }
-                        )
-                            .padding(.horizontal)
+                        if viewModel.selectedLocation?.id == location.id || viewModel.selectedLocation == nil {
+                            WeatherCell(
+                                location: location,
+                                metadata: viewModel.metadata(for: location.id),
+                                timeAction: { await viewModel.time(in: location) }
+                            )
+                                .padding(.horizontal)
+                                .onTapGesture {
+                                    withAnimation(.easeInOut) {
+                                        viewModel.selectedLocation = viewModel.selectedLocation == nil ? location : nil
+                                    }
+                                }
+                        }
                     }
                 }
                 .padding(.top)
@@ -45,22 +52,44 @@ struct WeatherListView: View {
             .navigationTitle(Strings.title)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink {
-                        SearchView {
-                            viewModel.add($0, locations: locations)
-                        }
-                    } label: {
-                        Image.plusCircle
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundColor(.blue)
-                            .bold()
-                            .frame(width: Const.imageSize, height: Const.imageSize)
+                    if viewModel.selectedLocation == nil {
+                        addButton
+                    } else {
+                        deleteButton
                     }
                 }
             }
         }
-        
+    }
+    
+    private var addButton: some View {
+        NavigationLink {
+            SearchView {
+                viewModel.add($0, locations: locations)
+            }
+        } label: {
+            Image.plusCircle
+                .resizable()
+                .scaledToFit()
+                .foregroundColor(.blue)
+                .bold()
+                .frame(width: Const.imageSize, height: Const.imageSize)
+        }
+    }
+    
+    private var deleteButton: some View {
+        Button {
+            guard let location = locationsFetchRequest.first(where: { $0.id == viewModel.selectedLocation?.id }) else { return }
+            viewModel.delete(location)
+        } label: {
+            Image.trash
+                .resizable()
+                .scaledToFit()
+                .foregroundColor(.red)
+                .bold()
+                .frame(width: Const.imageSize, height: Const.imageSize)
+        }
+
     }
 }
 

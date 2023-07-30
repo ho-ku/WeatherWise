@@ -29,7 +29,15 @@ final class WeatherLocation {
     }
     
     struct Metadata {
-        let temperature: Int
-        let weatherCondition: String
+        struct WeatherForecast {
+            let date: Date
+            let temperature: Int
+            let condition: String
+        }
+        
+        let weatherForecast: [WeatherForecast]
+        
+        var temperature: Int? { weatherForecast.first?.temperature }
+        var weatherCondition: String? { weatherForecast.first?.condition }
     }
 }
