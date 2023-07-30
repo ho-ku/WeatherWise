@@ -20,6 +20,7 @@ struct SearchView: View {
 
     // MARK: - Properties
     
+    /// A completion block which is triggered when user selects new location
     var onSelect: (WeatherLocation) -> Void
     
     // Private properties
@@ -59,6 +60,8 @@ struct SearchView: View {
             }
         }
     }
+    
+    // MARK: - Private Helpers
     
     @ViewBuilder
     private var content: some View {

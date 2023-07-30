@@ -13,6 +13,7 @@ struct WeatherListView: View {
         static let imageSize = 28.0
         static let detailsPadding = 24.0
         static let detailsSpacing = 20.0
+        static let weatherSpacing = 32.0
     }
 
     // MARK: - Properties
@@ -34,7 +35,7 @@ struct WeatherListView: View {
             ScrollView {
                 LazyVStack {
                     ForEach(locations, id: \.title) { location in
-                        VStack(spacing: 32) {
+                        VStack(spacing: Const.weatherSpacing) {
                             if viewModel.selectedLocation?.id == location.id || viewModel.selectedLocation == nil {
                                 WeatherCell(
                                     location: location,

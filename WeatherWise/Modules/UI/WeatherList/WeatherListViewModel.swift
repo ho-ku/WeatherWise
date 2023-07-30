@@ -14,12 +14,18 @@ final class WeatherListViewModel: ObservableObject {
     
     @Published var selectedLocation: WeatherLocation?
     
+    // Private properties
     private let weatherRepository: AnyWeatherRepository
+    private let locationRepository: AnyLocationRepository
     
     // MARK: - Init
     
-    init(weatherRepository: AnyWeatherRepository) {
+    init(
+        weatherRepository: AnyWeatherRepository,
+        locationRepository: AnyLocationRepository
+    ) {
         self.weatherRepository = weatherRepository
+        self.locationRepository = locationRepository
     }
     
     // MARK: - Methods
@@ -92,14 +98,9 @@ final class WeatherListViewModel: ObservableObject {
     
     /// Method to get current time string in specific location
     func time(in location: WeatherLocation) async -> String {
-        let clLocation = CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        let geocoder = CLGeocoder()
-        let placemarks = try? await geocoder.reverseGeocodeLocation(clLocation)
-        guard let placemark = placemarks?.first else { return "" }
-
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeZone = placemark.timeZone
-        dateFormatter.dateFormat = "h:mm a"
+        guard let timeZone = await locationRepository.timeZone(in: location.coordinate) else { return "" }
+        let dateFormatter = DateFormatter.hourMinute
+        dateFormatter.timeZone = timeZone
         return dateFormatter.string(from: .now)
     }
 }

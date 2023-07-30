@@ -21,7 +21,15 @@ struct WeatherCell: View {
     let metadata: WeatherLocation.Metadata
     let timeAction: () async -> String
     
+    // Private properties
     @State private var time: String?
+    private var temperatureText: String {
+        if let temperature = metadata.temperature {
+            return "\(temperature)°"
+        } else {
+            return ""
+        }
+    }
     
     // MARK: - Body
     
@@ -44,16 +52,9 @@ struct WeatherCell: View {
                     }
                 }
                 
-                if let temperature = metadata.temperature {
-                    Text("\(temperature)°")
-                        .font(.system(size: 40))
-                        .bold()
-                } else {
-                    Text("")
-                        .font(.system(size: 40))
-                        .bold()
-                }
-                
+                Text(temperatureText)
+                    .font(.system(size: 40))
+                    .bold()
                 
                 Text(location.title)
                     .font(.system(size: 20))
@@ -71,9 +72,7 @@ struct WeatherCell: View {
         .onAppear {
             Task {
                 let currentTime = await timeAction()
-                await MainActor.run {
-                    time = currentTime
-                }
+                await MainActor.run { time = currentTime }
             }
         }
     }
