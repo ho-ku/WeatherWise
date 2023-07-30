@@ -11,6 +11,8 @@ struct WeatherListView: View {
     
     private struct Const {
         static let imageSize = 28.0
+        static let detailsPadding = 24.0
+        static let detailsSpacing = 20.0
     }
 
     // MARK: - Properties
@@ -32,18 +34,24 @@ struct WeatherListView: View {
             ScrollView {
                 LazyVStack {
                     ForEach(locations, id: \.title) { location in
-                        if viewModel.selectedLocation?.id == location.id || viewModel.selectedLocation == nil {
-                            WeatherCell(
-                                location: location,
-                                metadata: viewModel.metadata(for: location.id),
-                                timeAction: { await viewModel.time(in: location) }
-                            )
-                                .padding(.horizontal)
-                                .onTapGesture {
-                                    withAnimation(.easeInOut) {
-                                        viewModel.selectedLocation = viewModel.selectedLocation == nil ? location : nil
+                        VStack(spacing: 32) {
+                            if viewModel.selectedLocation?.id == location.id || viewModel.selectedLocation == nil {
+                                WeatherCell(
+                                    location: location,
+                                    metadata: viewModel.metadata(for: location.id),
+                                    timeAction: { await viewModel.time(in: location) }
+                                )
+                                    .padding(.horizontal)
+                                    .onTapGesture {
+                                        withAnimation(.easeInOut) {
+                                            viewModel.selectedLocation = viewModel.selectedLocation == nil ? location : nil
+                                        }
                                     }
-                                }
+                            }
+                            
+                            if viewModel.selectedLocation?.id == location.id {
+                                details(for: location)
+                            }
                         }
                     }
                 }
@@ -60,6 +68,30 @@ struct WeatherListView: View {
                 }
             }
         }
+    }
+    
+    // MARK: - Private Helpers
+    
+    @ViewBuilder
+    private func details(for location: WeatherLocation) -> some View {
+        LazyVStack(spacing: Const.detailsSpacing) {
+            ForEach(viewModel.metadata(for: location.id).weatherForecast, id: \.date) { forecast in
+                HStack {
+                    Text(forecast.condition)
+                        .font(.system(size: 22))
+                        .foregroundColor(.gray)
+                        .bold()
+                    
+                    Spacer()
+                    
+                    Text("\(forecast.temperature)°")
+                        .font(.system(size: 22))
+                        .foregroundColor(.black)
+                        .bold()
+                }
+            }
+        }
+        .padding(.horizontal, Const.detailsPadding)
     }
     
     private var addButton: some View {

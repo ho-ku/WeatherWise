@@ -30,7 +30,7 @@ struct WeatherCell: View {
             VStack(alignment: .leading, spacing: Const.spacing) {
                 HStack {
                     Text(metadata.weatherCondition ?? "")
-                        .font(.system(size: 18))
+                        .font(.system(size: 20))
                         .foregroundColor(.gray)
                         .bold()
                     
@@ -38,7 +38,7 @@ struct WeatherCell: View {
                     
                     if let time {
                         Text(time)
-                            .font(.system(size: 18))
+                            .font(.system(size: 20))
                             .foregroundColor(.blue)
                             .bold()
                     }
@@ -56,7 +56,7 @@ struct WeatherCell: View {
                 
                 
                 Text(location.title)
-                    .font(.system(size: 18))
+                    .font(.system(size: 20))
                     .bold()
             }
             
