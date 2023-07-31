@@ -6,21 +6,30 @@
 //
 
 import Foundation
+import WeatherWiseCore
 
 struct ModuleFactory {
     
     private init() {}
     
-    struct DB {
+    struct Core {
         static let locationRepository: AnyLocationRepository = LocationRepository()
         static let weatherRepository: AnyWeatherRepository = WeatherRepository()
+        static let urlSession: URLSession = .shared
+        static let decoder = JSONDecoder()
     }
     
     struct ViewModel {
-        static let searchViewModel = SearchViewModel(locationRepository: DB.locationRepository)
+        static let searchViewModel = SearchViewModel(locationRepository: Core.locationRepository)
         static let weatherListViewModel = WeatherListViewModel(
-            weatherRepository: DB.weatherRepository,
-            locationRepository: DB.locationRepository
+            weatherRepository: Core.weatherRepository,
+            locationRepository: Core.locationRepository,
+            forecastAPI: ForecastBuilder(
+                urlSession: Core.urlSession,
+                decoder: Core.decoder
+            )
+            .withAPIKey(Config.apiKey)
+            .build()
         )
     }
 }

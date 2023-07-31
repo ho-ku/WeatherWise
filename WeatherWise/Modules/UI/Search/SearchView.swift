@@ -45,6 +45,7 @@ struct SearchView: View {
         .navigationTitle(Strings.Search.title)
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
+        .background(Color.white.edgesIgnoringSafeArea(.all))
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
@@ -79,8 +80,10 @@ struct SearchView: View {
                 ForEach(viewModel.foundWeatherObjects, id: \.location.id) { weatherObject in
                     VStack(alignment: .leading) {
                         Text(weatherObject.location.title)
+                            .foregroundColor(.black)
                         
                         Text(weatherObject.description)
+                            .foregroundColor(.black)
                         
                         Rectangle()
                             .fill(.gray.opacity(0.3))

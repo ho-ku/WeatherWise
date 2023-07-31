@@ -39,7 +39,7 @@ struct WeatherListView: View {
                             if viewModel.selectedLocation?.id == location.id || viewModel.selectedLocation == nil {
                                 WeatherCell(
                                     location: location,
-                                    metadata: viewModel.metadata(for: location.id),
+                                    metadata: viewModel.locationsMetadata[location.id],
                                     timeAction: { await viewModel.time(in: location) }
                                 )
                                     .padding(.horizontal)
@@ -50,14 +50,18 @@ struct WeatherListView: View {
                                     }
                             }
                             
-                            if viewModel.selectedLocation?.id == location.id {
-                                details(for: location)
+                            if viewModel.selectedLocation?.id == location.id,
+                               let metadata = viewModel.locationsMetadata[location.id] {
+                                details(metadata: metadata)
                             }
                         }
                     }
                 }
                 .padding(.top)
+                .task { viewModel.refreshMetadata(for: locations) }
+                .refreshable { viewModel.refreshMetadata(for: locations) }
             }
+            .background(Color.white.edgesIgnoringSafeArea(.all))
             .navigationTitle(Strings.title)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -74,16 +78,21 @@ struct WeatherListView: View {
     // MARK: - Private Helpers
     
     @ViewBuilder
-    private func details(for location: WeatherLocation) -> some View {
+    private func details(metadata: WeatherLocation.Metadata) -> some View {
         LazyVStack(spacing: Const.detailsSpacing) {
-            ForEach(viewModel.metadata(for: location.id).weatherForecast, id: \.date) { forecast in
-                HStack {
+            ForEach(metadata.weatherForecast, id: \.date) { forecast in
+                HStack(spacing: Const.detailsSpacing) {
+                    Text(DateFormatter.dayMonthHourMinute.string(from: forecast.date))
+                        .font(.system(size: 22))
+                        .foregroundColor(.black)
+                        .bold()
+                    
+                    Spacer()
+                    
                     Text(forecast.condition)
                         .font(.system(size: 22))
                         .foregroundColor(.gray)
                         .bold()
-                    
-                    Spacer()
                     
                     Text("\(forecast.temperature)°")
                         .font(.system(size: 22))

@@ -18,13 +18,13 @@ struct WeatherCell: View {
     // MARK: - Properties
     
     let location: WeatherLocation
-    let metadata: WeatherLocation.Metadata
+    let metadata: WeatherLocation.Metadata?
     let timeAction: () async -> String
     
     // Private properties
     @State private var time: String?
     private var temperatureText: String {
-        if let temperature = metadata.temperature {
+        if let temperature = metadata?.temperature {
             return "\(temperature)°"
         } else {
             return ""
@@ -37,7 +37,7 @@ struct WeatherCell: View {
         HStack {
             VStack(alignment: .leading, spacing: Const.spacing) {
                 HStack {
-                    Text(metadata.weatherCondition ?? "")
+                    Text(metadata?.weatherCondition ?? "")
                         .font(.system(size: 20))
                         .foregroundColor(.gray)
                         .bold()

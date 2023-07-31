@@ -7,69 +7,36 @@
 
 import SwiftUI
 import CoreLocation
+import WeatherWiseCore
 
 final class WeatherListViewModel: ObservableObject {
     
     // MARK: - Properties
     
     @Published var selectedLocation: WeatherLocation?
+    @Published var locationsMetadata: [String: WeatherLocation.Metadata] = [:]
     
     // Private properties
     private let weatherRepository: AnyWeatherRepository
     private let locationRepository: AnyLocationRepository
+    private let forecastAPI: AnyForecastAPI
     
     // MARK: - Init
     
     init(
         weatherRepository: AnyWeatherRepository,
-        locationRepository: AnyLocationRepository
+        locationRepository: AnyLocationRepository,
+        forecastAPI: AnyForecastAPI
     ) {
         self.weatherRepository = weatherRepository
         self.locationRepository = locationRepository
+        self.forecastAPI = forecastAPI
     }
     
     // MARK: - Methods
     
-    func metadata(for id: String) -> WeatherLocation.Metadata { // TODO: - Replace with the real data
-        .init(
-            weatherForecast: [
-                .init(
-                    date: .init(),
-                    temperature: 30,
-                    condition: "Rain"
-                ),
-                .init(
-                    date: .init().addingTimeInterval(10800),
-                    temperature: 29,
-                    condition: "Cloudy"
-                ),
-                .init(
-                    date: .init().addingTimeInterval(21600),
-                    temperature: 20,
-                    condition: "Norm"
-                ),
-                .init(
-                    date: .init().addingTimeInterval(32400),
-                    temperature: 21,
-                    condition: "Rain"
-                ),
-                .init(
-                    date: .init().addingTimeInterval(43200),
-                    temperature: 40,
-                    condition: "Rain"
-                ),
-                .init(
-                    date: .init().addingTimeInterval(54000),
-                    temperature: 19,
-                    condition: "Rain"
-                ),
-                .init(
-                    date: .init().addingTimeInterval(64800),
-                    temperature: 50,
-                    condition: "Rain"
-                )
-            ]
-        )
+    func refreshMetadata(for locations: [WeatherLocation]) {
+        locations.forEach(fetchMetadata(for:))
     }
     
     /// Method to add a new location if it does not exist yet
@@ -78,6 +45,7 @@ final class WeatherListViewModel: ObservableObject {
         withAnimation {
             do {
                 try weatherRepository.add(location)
+                fetchMetadata(for: location)
             } catch {
                 print(error)
             }
@@ -102,5 +70,31 @@ final class WeatherListViewModel: ObservableObject {
         let dateFormatter = DateFormatter.hourMinute
         dateFormatter.timeZone = timeZone
         return dateFormatter.string(from: .now)
+    }
+    
+    // MARK: - Private Helpers
+    
+    private func fetchMetadata(for location: WeatherLocation) {
+        Task {
+            do {
+                let forecast = try await forecastAPI.forecast(
+                    coordinate: (
+                        "\(location.coordinate.latitude)",
+                        "\(location.coordinate.longitude)"
+                    )
+                )
+                await MainActor.run {
+                    locationsMetadata[location.id] = .init(
+                        weatherForecast: forecast.map { .init(
+                            date: $0.date,
+                            temperature: Int($0.temperature),
+                            condition: $0.condition
+                        ) }
+                    )
+                }
+            } catch {
+                print(error)
+            }
+        }
     }
 }

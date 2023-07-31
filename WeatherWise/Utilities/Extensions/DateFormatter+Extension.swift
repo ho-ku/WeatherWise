@@ -13,4 +13,10 @@ extension DateFormatter {
         dateFormatter.dateFormat = "h:mm a"
         return dateFormatter
     }()
+    
+    static let dayMonthHourMinute: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM hh:mm"
+        return dateFormatter
+    }()
 }
