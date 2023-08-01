@@ -15,6 +15,7 @@ final class WeatherListViewModel: ObservableObject {
     
     @Published var selectedLocation: WeatherLocation?
     @Published var locationsMetadata: [String: WeatherLocation.Metadata] = [:]
+    @Published var errorTitle: String?
     
     // Private properties
     private let weatherRepository: AnyWeatherRepository
@@ -47,7 +48,7 @@ final class WeatherListViewModel: ObservableObject {
                 try weatherRepository.add(location)
                 fetchMetadata(for: location)
             } catch {
-                print(error)
+                errorTitle = (error as NSError).description
             }
         }
     }
@@ -58,7 +59,7 @@ final class WeatherListViewModel: ObservableObject {
             do {
                 try weatherRepository.delete(locationMO)
             } catch {
-                print(error)
+                errorTitle = (error as NSError).description
             }
             selectedLocation = nil
         }
@@ -93,7 +94,7 @@ final class WeatherListViewModel: ObservableObject {
                     )
                 }
             } catch {
-                print(error)
+                errorTitle = (error as NSError).description
             }
         }
     }

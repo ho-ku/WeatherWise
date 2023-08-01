@@ -72,6 +72,7 @@ struct WeatherListView: View {
                     }
                 }
             }
+            .addErrorListener($viewModel.errorTitle)
         }
     }
     
