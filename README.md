@@ -25,3 +25,7 @@ External packages:
 WeatherWiseCore (https://github.com/ho-ku/WeatherWiseCore)
 Purpose: To provide weather forecast for the specified region
 Connected via SPM.
+
+## Contact Information
+Email: hoku.dev01@gmail.com<br>
+[Telegram](https://t.me/justHoku)
