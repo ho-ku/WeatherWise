@@ -6,13 +6,13 @@ WeatherWise is a plain weather forecast iOS application which displays weather d
 ## App Overview
 WeatherWise consists of two screens:
 ### 1. Weather list screen
-![IMG_4071](https://github.com/ho-ku/WeatherWise/assets/43676501/3d501863-d700-43a8-bee4-2e96e9dd9652)
-![IMG_4073](https://github.com/ho-ku/WeatherWise/assets/43676501/10aed2f8-f890-40e6-a1c7-2f4aa683276b)
+![IMG_4073](https://github.com/ho-ku/WeatherWise/assets/43676501/42379362-47e4-4651-8152-1711da81e8ad)
+![IMG_4071](https://github.com/ho-ku/WeatherWise/assets/43676501/8c9c6497-ea21-4076-b9cd-a7bdb573f067)
 ### Key Features
 A list of all locations selected by user with a brief info: weather condition, temperature, time in that region and region name;
 A 5-day forecast with 3h interval for the specified region.
 ### 2. Location search screen
-![IMG_4072](https://github.com/ho-ku/WeatherWise/assets/43676501/a3019462-0b2b-4225-84f5-a4b75abd3b15)
+![IMG_4072](https://github.com/ho-ku/WeatherWise/assets/43676501/f334ac50-18e5-4e21-bc02-bf0d4dfe4b62)
 ### Key Features
 A list of all found locations using entered search term.
 
