@@ -8,6 +8,12 @@
 import CoreLocation
 import MapKit
 
+protocol AnyMapSearchable {
+    init(request: MKLocalSearch.Request)
+    func start() async throws -> MKLocalSearch.Response
+}
+extension MKLocalSearch: AnyMapSearchable { }
+
 protocol AnyLocationRepository {
     
     /// Method that returns a timezone in specified coordinate
@@ -18,6 +24,13 @@ protocol AnyLocationRepository {
 }
 
 final class LocationRepository: AnyLocationRepository {
+    
+    private let searchableType: AnyMapSearchable.Type
+    
+    init(searchableType: AnyMapSearchable.Type) {
+        self.searchableType = searchableType
+    }
+    
     func timeZone(in coordinate: CLLocationCoordinate2D) async -> TimeZone? {
         let clLocation = CLLocation(
             latitude: coordinate.latitude,
@@ -31,7 +44,7 @@ final class LocationRepository: AnyLocationRepository {
     func search(_ term: String) async -> [(location: WeatherLocation, description: String)] {
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = term
-        let search = MKLocalSearch(request: request)
+        let search = searchableType.init(request: request)
         guard let response = try? await search.start() else { return [] }
         return response.mapItems.map {
             (

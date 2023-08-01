@@ -20,7 +20,7 @@ final class SearchViewModel: ObservableObject {
     ] = []
     
     // Private properties
-    private var searchTask: Task<Void, Error>?
+    private(set) var searchTask: Task<Void, Error>?
     private let locationRepository: AnyLocationRepository
     
     // MARK: - Init

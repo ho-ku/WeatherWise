@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MapKit
 import WeatherWiseCore
 
 struct ModuleFactory {
@@ -13,8 +14,12 @@ struct ModuleFactory {
     private init() {}
     
     struct Core {
-        static let locationRepository: AnyLocationRepository = LocationRepository()
-        static let weatherRepository: AnyWeatherRepository = WeatherRepository()
+        static let locationRepository: AnyLocationRepository = LocationRepository(
+            searchableType: MKLocalSearch.self
+        )
+        static let weatherRepository: AnyWeatherRepository = WeatherRepository(
+            viewContext: PersistenceController.shared.container.viewContext
+        )
         static let urlSession: URLSession = .shared
         static let decoder = JSONDecoder()
     }

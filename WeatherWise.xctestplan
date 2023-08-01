@@ -1,0 +1,38 @@
+{
+  "configurations" : [
+    {
+      "id" : "639D96DC-6EE0-4EA0-BFAC-DB653D881D6A",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:WeatherWise.xcodeproj",
+          "identifier" : "37968EFF2A6F019200CFEF12",
+          "name" : "WeatherWise"
+        }
+      ]
+    },
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:WeatherWise.xcodeproj",
+      "identifier" : "37968EFF2A6F019200CFEF12",
+      "name" : "WeatherWise"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WeatherWise.xcodeproj",
+        "identifier" : "37F244C52A7873D600B910AD",
+        "name" : "WeatherWiseTests"
+      }
+    }
+  ],
+  "version" : 1
+}

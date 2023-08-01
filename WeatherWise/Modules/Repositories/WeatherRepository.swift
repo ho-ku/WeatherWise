@@ -21,17 +21,14 @@ final class WeatherRepository: AnyWeatherRepository {
     
     // MARK: - Properties
     
-    private let persistenceController: PersistenceController
-    private var viewContext: NSManagedObjectContext {
-        persistenceController.container.viewContext
-    }
+    private let viewContext: NSManagedObjectContext
     
     // MARK: - Init
     
     init(
-        persistenceController: PersistenceController = .shared
+        viewContext: NSManagedObjectContext
     ) {
-        self.persistenceController = persistenceController
+        self.viewContext = viewContext
     }
     
     // MARK: - Methods
