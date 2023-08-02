@@ -9,34 +9,11 @@ jobs:
     runs-on: macOS-latest
     strategy:
       matrix:
-        destination: ['platform=iOS Simulator,OS=13.5,name=iPhone 11']
+        destination: ['platform=iOS Simulator,OS=16.0,name=iPhone 14']
     steps:
       - name: Checkout
         uses: actions/checkout@v1
 
-      - uses: actions/cache@v2
-        id: carthage-cache
-        with:
-          path: Carthage
-          key: ${{ runner.os }}-carthage-${{ hashFiles('**/Cartfile.resolved') }}
-          restore-keys: |
-                ${{ runner.os }}-carthage-
-      - uses: actions/cache@v2
-        id: cocoapods-cache
-        with:
-          path: Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
-      - name: Carthage
-        if: steps.carthage-cache.outputs.cache-hit != 'true'
-        run: |
-          carthage bootstrap --no-use-binaries --platform iOS --cache-builds
-          rm -rf ./Carthage/Build/iOS/*.dSYM
-      - name: CocoaPods
-        if: steps.cocoapods-cache.outputs.cache-hit != 'true'
-        run: |
-          pod install
       - name: Build
         run: |
           mv Optimize/Secrets.swift.example Optimize/Secrets.swift
