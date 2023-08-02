@@ -16,7 +16,6 @@ jobs:
 
       - name: Build
         run: |
-          mv Optimize/Secrets.swift.example Optimize/Secrets.swift
-          xcodebuild build test -workspace ./Optimize.xcworkspace -scheme Optimize -destination "${destination}"
+          xcodebuild build test ./WeatherWise.xcproject -scheme WeatherWise -destination "${destination}"
     env:
       destination: ${{ matrix.destination }}
