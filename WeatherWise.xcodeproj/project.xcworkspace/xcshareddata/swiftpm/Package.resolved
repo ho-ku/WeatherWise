@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "weatherwisecore",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ho-ku/WeatherWiseCore",
+      "state" : {
+        "branch" : "main",
+        "revision" : "6294f49d242c2618e2e3df809d777205476243c2"
+      }
+    }
+  ],
+  "version" : 2
+}
